@@ -1,5 +1,5 @@
 import React from "react";
-import ShowCard from "./ShowCard";
+import PreviewCard from "./previewCard";
 
 export default function Seasons() {
   const [season, setSeason] = React.useState([]);
@@ -10,18 +10,28 @@ export default function Seasons() {
       .then((data) => setSeason(data));
   }, []);
 
+  function dateConversion(date) {
+    const dateObject = new Date(date);
+    const day = String(dateObject.getUTCDate()).padStart(2, "0");
+    const month = String(dateObject.getUTCMonth() + 1).padStart(2, "0");
+    const year = dateObject.getUTCFullYear();
+    const formattedDate = `${day}/${month}/${year}`;
+
+    return formattedDate;
+  }
+
   const Cards = season.map((card) => {
     return (
-      <ShowCard
+      <PreviewCard
         key={card.id}
         image={card.image}
         title={card.title}
         descripton={card.descripton}
-        updates={card.updated}
+        updates={dateConversion(card.updated)}
+        numberOfSeasons={card.seasons}
       />
     );
   });
-  console.log(season);
 
   return <div className="grid grid-cols-4 gap-4">{Cards}</div>;
 }
