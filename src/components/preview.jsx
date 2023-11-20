@@ -1,7 +1,7 @@
 import React from "react";
 import PreviewCard from "./previewCard";
 
-export default function Seasons() {
+export default function Preview() {
   const [season, setSeason] = React.useState([]);
 
   React.useEffect(() => {
