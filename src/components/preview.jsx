@@ -1,13 +1,14 @@
 import React from "react";
 import PreviewCard from "./previewCard";
+import Shows from "./Shows";
 
-export default function Preview() {
-  const [season, setSeason] = React.useState([]);
-
+export default function Preview({ onSetPreviewInfo, onPreviewInfo }) {
   React.useEffect(() => {
     fetch("https://podcast-api.netlify.app/shows")
       .then((res) => res.json())
-      .then((data) => setSeason(data));
+      .then((data) => {
+        onSetPreviewInfo(data);
+      });
   }, []);
 
   function dateConversion(date) {
@@ -20,7 +21,7 @@ export default function Preview() {
     return formattedDate;
   }
 
-  const Cards = season.map((card) => {
+  const Cards = onPreviewInfo.map((card) => {
     return (
       <PreviewCard
         key={card.id}
