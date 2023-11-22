@@ -1,34 +1,22 @@
 import React from "react";
 
 export default function PreviewCard(item) {
-  function DescriptionPreview() {
-    return (
-      <dialog open="true">
-        <div>
-          <p>{item.description}</p>
-        </div>
-      </dialog>
-    );
-  }
-
   return (
-    <div className="flex w-64 h-64 flex-col rounded-lg bg-cyan-300">
+    <div className="flex items-center w-full bg-[#f7cad0] p-4 rounded-lg">
       <div className="img--container">
-        <img src={item.image} className="" />
+        <img src={item.image} className="w-full h-auto" />
       </div>
-      <div className="show--title">
-        <h1 className="text-center my-2 text-lg text-[#ffffff]">
+      <div className="show--title flex-1 ml-4 ">
+        <h1 className=" my-2 text-xl text-[#080708] text-center">
           {item.title}
         </h1>
-      </div>
-      <div>
-        <h3>seasons {item.numberOfSeasons}</h3>
-      </div>
-      <div className="flex  justify-between">
-        <p>{item.updates}</p>
-        <button onClick={DescriptionPreview} className="">
-          View Description
-        </button>
+        <div className="flex justify-between items-end">
+          <span className="flex items-end space-x-2">
+            <img src="./images/time-left.png" className="w-4 h-4 my-1" />
+            <p>{item.updates}</p>
+          </span>
+          <h3>seasons {item.numberOfSeasons}</h3>
+        </div>
       </div>
     </div>
   );

@@ -34,5 +34,5 @@ export default function Preview({ onSetPreviewInfo, onPreviewInfo }) {
     );
   });
 
-  return <div className="grid grid-cols-4 gap-4">{Cards}</div>;
+  return <div className="grid grid-cols-3 gap-4 my-10">{Cards}</div>;
 }
