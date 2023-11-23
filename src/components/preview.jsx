@@ -2,7 +2,11 @@ import React from "react";
 import PreviewCard from "./previewCard";
 import Shows from "./Shows";
 
-export default function Preview({ onSetPreviewInfo, onPreviewInfo }) {
+export default function Preview({
+  onSetPreviewInfo,
+  onPreviewInfo,
+  onSelectedId,
+}) {
   React.useEffect(() => {
     fetch("https://podcast-api.netlify.app/shows")
       .then((res) => res.json())
@@ -24,12 +28,14 @@ export default function Preview({ onSetPreviewInfo, onPreviewInfo }) {
   const Cards = onPreviewInfo.map((card) => {
     return (
       <PreviewCard
+        onSelectedId={onSelectedId}
         key={card.id}
         image={card.image}
         title={card.title}
         descripton={card.descripton}
         updates={dateConversion(card.updated)}
         numberOfSeasons={card.seasons}
+        id={card.id}
       />
     );
   });

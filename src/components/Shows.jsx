@@ -1,49 +1,75 @@
 import React from "react";
+import Loader from "./Loader";
+export default function Shows({ setIsLoading, selectedId, isLoading }) {
+  const [show, setShow] = React.useState({});
 
-export default function Shows({ onPreviewInfo }) {
-  const showId = onPreviewInfo.map((onPreviewInfo) => onPreviewInfo.id);
-  const [show, setShow] = React.useState([]);
+  const { title, updated, seasons, id, description, image, genres } = show;
 
-  console.log(showId);
-  React.useEffect(() => {
-    // setShow((show) =>
-    //   onShowId.map((ashow) =>
-    //podcast-api.netlify.app/id/10716
+  React.useEffect(
+    function () {
+      async function fetchShow() {
+        setIsLoading(true);
+        const res = await fetch(
+          `https://podcast-api.netlify.app/id/${selectedId}`
+        );
 
-    fetch("https://podcast-api.netlify.app/id/10716")
-      .then((res) => {
         if (!res.ok) {
           throw new Error(`Network response was not ok: ${res.status}`);
         }
-        return res.json();
-      })
-      .then((data) => {
+
+        const data = await res.json();
         console.log(data);
-        // Now you can work with the JSON data
-      })
-      .catch((error) => {
-        console.error("Error during fetch:", error);
-      });
-  }, []);
+        setShow(data).catch((error) => {
+          console.error("Error during fetch:", error);
+
+          setIsLoading(false);
+        });
+      }
+      fetchShow();
+    },
+    [selectedId]
+  );
 
   return (
     <>
-      <div className="flex ">
-        <div className="preview--img">
-          <img src={show.image} />
+      <section className="flex-col bg-slate-400">
+        <div className="flex justify-between">
+          <div>
+            <img src={image} />
+          </div>
+          <div className="flex-col justify-items-center ">
+            <h2>{title}</h2>
+            <p>{description}</p>
+            <p>Genres :{genres} </p>
+          </div>
         </div>
-        <div>
-          <p>{show.title}</p>
+        <div className="flex-col justify-between my-4">
+          {seasons
+            ? seasons.map((eachSeason) => {
+                return <ShowSeason item={eachSeason} key={eachSeason.id} />;
+              })
+            : ""}
         </div>
-      </div>
+      </section>
     </>
   );
 }
 
-function ShowsBox() {
+function ShowSeason({ item }) {
+  console.log(item);
   return (
-    <div className="flex">
-      <div></div>
+    <div className="my-1 flex bg-slate-100 rounded-b-lg">
+      <div className="w-2/5 h-40">
+        <img
+          src={item.image}
+          className="object-cover w-2/5 h-40 items-center "
+        />
+      </div>
+      <div>
+        <h3>{item.title}</h3>
+
+        <p>No Episode {item.episodes.length}</p>
+      </div>
     </div>
   );
 }

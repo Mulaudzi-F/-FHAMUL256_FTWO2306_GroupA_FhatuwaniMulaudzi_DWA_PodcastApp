@@ -2,7 +2,10 @@ import React from "react";
 
 export default function PreviewCard(item) {
   return (
-    <div className="flex items-center w-full bg-[#f7cad0] p-4 rounded-lg">
+    <div
+      onClick={() => item.onSelectedId(item.id)}
+      className="flex items-center w-full bg-[#f7cad0] p-4 rounded-lg"
+    >
       <div className="img--container">
         <img src={item.image} className="w-full h-auto" />
       </div>

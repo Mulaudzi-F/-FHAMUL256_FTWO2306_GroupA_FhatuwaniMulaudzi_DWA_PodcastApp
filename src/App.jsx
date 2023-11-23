@@ -8,6 +8,8 @@ import Genres from "./components/genres";
 
 function App() {
   const [previewInfo, setpreviewInfo] = useState([]);
+  const [selectedId, setSelectedId] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const genres = [
     "All",
     "Personal Growth",
@@ -24,20 +26,28 @@ function App() {
   const genre = genres.map((gen) => (
     <Genres key={genres.indexOf(gen)} onHeader={gen} />
   ));
-  /*
- <div className="p-12">
-        <Preview
-          onSetPreviewInfo={setpreviewInfo}
-          onPreviewInfo={previewInfo}
-        />
-      </div>
-      <Shows onPreviewInfo={previewInfo} />
+  function handleSelectedId(id) {
+    setSelectedId(id);
+    console.log("It's working");
+  }
 
-      */
+  function handleCloseSelected() {
+    setSelectedId(null);
+  }
   return (
     <div className="flex flex-col ">
       <Navbar />
-      <Preview onSetPreviewInfo={setpreviewInfo} onPreviewInfo={previewInfo} />
+      <Preview
+        onSetPreviewInfo={setpreviewInfo}
+        onPreviewInfo={previewInfo}
+        onSelectedId={handleSelectedId}
+      />
+      <Shows
+        selectedId={selectedId}
+        isLoading={isLoading}
+        oncloseSelected={handleCloseSelected}
+        setIsLoading={setIsLoading}
+      />
       {genre}
     </div>
   );
