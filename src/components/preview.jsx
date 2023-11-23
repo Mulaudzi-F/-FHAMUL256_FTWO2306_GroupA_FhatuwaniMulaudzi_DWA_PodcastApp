@@ -6,6 +6,7 @@ export default function Preview({
   onSetPreviewInfo,
   onPreviewInfo,
   onSelectedId,
+  onDateConversion
 }) {
   React.useEffect(() => {
     fetch("https://podcast-api.netlify.app/shows")
@@ -15,16 +16,6 @@ export default function Preview({
       });
   }, []);
 
-  function dateConversion(date) {
-    const dateObject = new Date(date);
-    const day = String(dateObject.getUTCDate()).padStart(2, "0");
-    const month = String(dateObject.getUTCMonth() + 1).padStart(2, "0");
-    const year = dateObject.getUTCFullYear();
-    const formattedDate = `${day}/${month}/${year}`;
-
-    return formattedDate;
-  }
-
   const Cards = onPreviewInfo.map((card) => {
     return (
       <PreviewCard
@@ -33,7 +24,7 @@ export default function Preview({
         image={card.image}
         title={card.title}
         descripton={card.descripton}
-        updates={dateConversion(card.updated)}
+        updates={onDateConversion(card.updated)}
         numberOfSeasons={card.seasons}
         id={card.id}
       />

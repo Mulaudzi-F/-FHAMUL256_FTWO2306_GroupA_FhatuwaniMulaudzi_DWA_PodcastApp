@@ -33,20 +33,33 @@ function App() {
 
   function handleCloseSelected() {
     setSelectedId(null);
+  } 
+
+  function dateConversion(date) {
+    const dateObject = new Date(date);
+    const day = String(dateObject.getUTCDate()).padStart(2, "0");
+    const month = String(dateObject.getUTCMonth() + 1).padStart(2, "0");
+    const year = dateObject.getUTCFullYear();
+    const formattedDate = `${day}/${month}/${year}`;
+
+    return formattedDate;
   }
+
   return (
     <div className="flex flex-col ">
       <Navbar />
       <Preview
         onSetPreviewInfo={setpreviewInfo}
         onPreviewInfo={previewInfo}
-        onSelectedId={handleSelectedId}
+        onSelectedId={handleSelectedId} 
+        onDateConversion={dateConversion}
       />
       <Shows
         selectedId={selectedId}
         isLoading={isLoading}
         oncloseSelected={handleCloseSelected}
-        setIsLoading={setIsLoading}
+        setIsLoading={setIsLoading} 
+        onDateConversion={dateConversion}
       />
       {genre}
     </div>

@@ -1,6 +1,11 @@
 import React from "react";
 import Loader from "./Loader";
-export default function Shows({ setIsLoading, selectedId, isLoading }) {
+export default function Shows({
+  setIsLoading,
+  selectedId,
+  isLoading,
+  onDateConversion,
+}) {
   const [show, setShow] = React.useState({});
 
   const { title, updated, seasons, id, description, image, genres } = show;
@@ -38,15 +43,22 @@ export default function Shows({ setIsLoading, selectedId, isLoading }) {
             <img src={image} />
           </div>
           <div className="flex-col justify-items-center ">
-            <h2>{title}</h2>
+            <h2 className="text-2xl font-bold">{title}</h2>
             <p>{description}</p>
             <p>Genres :{genres} </p>
           </div>
         </div>
-        <div className="flex-col justify-between my-4">
+        <div className="flex-col  pt-4">
           {seasons
             ? seasons.map((eachSeason) => {
-                return <ShowSeason item={eachSeason} key={eachSeason.id} />;
+                return (
+                  <ShowSeason
+                    updated={updated}
+                    item={eachSeason}
+                    key={eachSeason.id}
+                    onDateConversion={onDateConversion}
+                  />
+                );
               })
             : ""}
         </div>
@@ -55,20 +67,24 @@ export default function Shows({ setIsLoading, selectedId, isLoading }) {
   );
 }
 
-function ShowSeason({ item }) {
+function ShowSeason({ item, updated, onDateConversion }) {
   console.log(item);
   return (
-    <div className="my-1 flex bg-slate-100 rounded-b-lg">
-      <div className="w-2/5 h-40">
-        <img
-          src={item.image}
-          className="object-cover w-2/5 h-40 items-center "
-        />
+    <div className="m-1 flex bg-slate-100 rounded-b-lg">
+      <div className=" h-40">
+        <img src={item.image} className="object-contain   h-40 items-center " />
       </div>
-      <div>
-        <h3>{item.title}</h3>
+      <div className="flex-col   mx-10">
+        <div className="ps-10 pt-9">
+          <h3 className="text-xl font-bold">{item.title}</h3>
+        </div>
 
-        <p>No Episode {item.episodes.length}</p>
+        <div className="grid pt-16    self-end grid-flow-col gap-14">
+          <p className="text-lg font-medium">
+            No Episode {item.episodes.length}
+          </p>
+          <p className="text-lg font-medium">🗓️ {onDateConversion(updated)}</p>
+        </div>
       </div>
     </div>
   );

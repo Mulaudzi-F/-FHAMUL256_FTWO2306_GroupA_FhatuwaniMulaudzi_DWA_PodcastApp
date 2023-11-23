@@ -15,8 +15,7 @@ export default function PreviewCard(item) {
         </h1>
         <div className="flex justify-between items-end">
           <span className="flex items-end space-x-2">
-            <img src="./images/time-left.png" className="w-4 h-4 my-1" />
-            <p>{item.updates}</p>
+            <p> 🗓️ {item.updates}</p>
           </span>
           <h3>seasons {item.numberOfSeasons}</h3>
         </div>
