@@ -42,10 +42,12 @@ export default function Shows({
           <div>
             <img src={image} />
           </div>
-          <div className="flex-col justify-items-center ">
-            <h2 className="text-2xl font-bold">{title}</h2>
-            <p>{description}</p>
-            <p>Genres :{genres} </p>
+          <div className="grid justify-items-center ">
+            <h2 className="text-2xl font-bold pt-8">{title}</h2>
+            <span className="mx-10 ">
+              <p className="tracking-wide leading-loose">{description}</p>
+              <p>Genres :{genres} </p>
+            </span>
           </div>
         </div>
         <div className="flex-col  pt-4">
@@ -57,6 +59,7 @@ export default function Shows({
                     item={eachSeason}
                     key={eachSeason.id}
                     onDateConversion={onDateConversion}
+                    numbering={seasons.indexOf(eachSeason)}
                   />
                 );
               })
@@ -67,10 +70,10 @@ export default function Shows({
   );
 }
 
-function ShowSeason({ item, updated, onDateConversion }) {
-  console.log(item);
+function ShowSeason({ item, updated, onDateConversion, numbering }) {
   return (
     <div className="m-1 flex bg-slate-100 rounded-b-lg">
+      <div className="text-2xl pt-10 font-bold">{numbering + 1}</div>
       <div className=" h-40">
         <img src={item.image} className="object-contain   h-40 items-center " />
       </div>
@@ -81,7 +84,7 @@ function ShowSeason({ item, updated, onDateConversion }) {
 
         <div className="grid pt-16    self-end grid-flow-col gap-14">
           <p className="text-lg font-medium">
-            No Episode {item.episodes.length}
+            No Episodes {item.episodes.length}
           </p>
           <p className="text-lg font-medium">🗓️ {onDateConversion(updated)}</p>
         </div>

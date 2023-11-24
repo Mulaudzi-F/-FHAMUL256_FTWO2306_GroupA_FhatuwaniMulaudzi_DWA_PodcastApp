@@ -4,36 +4,24 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import Preview from "./components/preview";
 import Shows from "./components/Shows";
-import Genres from "./components/genres";
+import Episodes from "./components/Episodes";
 
 function App() {
   const [previewInfo, setpreviewInfo] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const genres = [
-    "All",
-    "Personal Growth",
-    "True crime and Investigation journalism",
-    "History",
-    "Comedy",
-    "Entertainment",
-    "Business",
-    "Fiction",
-    "News",
-    "Kids and Family",
-  ];
+  const [isActiveEpisode, setIsActiveEpisode] = useState("");
+  const [query, setQuery] = useState("");
 
-  const genre = genres.map((gen) => (
-    <Genres key={genres.indexOf(gen)} onHeader={gen} />
-  ));
+  function getActiveEpisode() {}
+
   function handleSelectedId(id) {
     setSelectedId(id);
-    console.log("It's working");
   }
 
   function handleCloseSelected() {
     setSelectedId(null);
-  } 
+  }
 
   function dateConversion(date) {
     const dateObject = new Date(date);
@@ -51,17 +39,16 @@ function App() {
       <Preview
         onSetPreviewInfo={setpreviewInfo}
         onPreviewInfo={previewInfo}
-        onSelectedId={handleSelectedId} 
+        onSelectedId={handleSelectedId}
         onDateConversion={dateConversion}
       />
       <Shows
         selectedId={selectedId}
         isLoading={isLoading}
         oncloseSelected={handleCloseSelected}
-        setIsLoading={setIsLoading} 
+        setIsLoading={setIsLoading}
         onDateConversion={dateConversion}
       />
-      {genre}
     </div>
   );
 }
