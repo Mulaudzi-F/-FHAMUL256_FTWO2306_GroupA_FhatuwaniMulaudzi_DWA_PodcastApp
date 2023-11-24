@@ -5,6 +5,7 @@ export default function Shows({
   selectedId,
   isLoading,
   onDateConversion,
+  handleSelectedSeason,
 }) {
   const [show, setShow] = React.useState({});
 
@@ -37,42 +38,56 @@ export default function Shows({
 
   return (
     <>
-      <section className="flex-col bg-slate-400">
-        <div className="flex justify-between">
-          <div>
-            <img src={image} />
+      {show ? (
+        <section className="flex-col bg-slate-400">
+          <div className="flex justify-between">
+            <div>
+              <img src={image} />
+            </div>
+            <div className="grid justify-items-center ">
+              <h2 className="text-2xl font-bold pt-8">{title}</h2>
+              <span className="mx-10 ">
+                <p className="tracking-wide leading-loose">{description}</p>
+                <p>{genres ? `Genres :${genres}` : ""}</p>
+              </span>
+            </div>
           </div>
-          <div className="grid justify-items-center ">
-            <h2 className="text-2xl font-bold pt-8">{title}</h2>
-            <span className="mx-10 ">
-              <p className="tracking-wide leading-loose">{description}</p>
-              <p>Genres :{genres} </p>
-            </span>
+          <div className="flex-col  pt-4">
+            {seasons
+              ? seasons.map((eachSeason) => {
+                  return (
+                    <ShowSeason
+                      updated={updated}
+                      item={eachSeason}
+                      key={eachSeason.id}
+                      onDateConversion={onDateConversion}
+                      numbering={seasons.indexOf(eachSeason)}
+                      handleSelectedSeason={handleSelectedSeason}
+                    />
+                  );
+                })
+              : ""}
           </div>
-        </div>
-        <div className="flex-col  pt-4">
-          {seasons
-            ? seasons.map((eachSeason) => {
-                return (
-                  <ShowSeason
-                    updated={updated}
-                    item={eachSeason}
-                    key={eachSeason.id}
-                    onDateConversion={onDateConversion}
-                    numbering={seasons.indexOf(eachSeason)}
-                  />
-                );
-              })
-            : ""}
-        </div>
-      </section>
+        </section>
+      ) : (
+        ""
+      )}
     </>
   );
 }
 
-function ShowSeason({ item, updated, onDateConversion, numbering }) {
+function ShowSeason({
+  item,
+  updated,
+  onDateConversion,
+  numbering,
+  handleSelectedSeason,
+}) {
   return (
-    <div className="m-1 flex bg-slate-100 rounded-b-lg">
+    <div
+      className="m-1 flex bg-slate-100 rounded-b-lg"
+      onClick={() => handleSelectedSeason(item.episodes)}
+    >
       <div className="text-2xl pt-10 font-bold">{numbering + 1}</div>
       <div className=" h-40">
         <img src={item.image} className="object-contain   h-40 items-center " />
