@@ -52,14 +52,20 @@ function EpisodesCollection({ item, onHandleAudioPlay }) {
       className="audio my-1  bg-red-200 w-17"
       onClick={() => onHandleAudioPlay(item.file, item.description)}
     >
-      <p> {item.title} </p>
+      <span className="flex justify-between">
+        <p className="p-2">{item.title} </p>{" "}
+        <img
+          src="./images/white love.png"
+          className="w-6 h-6 p-1 h-auto block"
+        />
+      </span>
     </div>
   );
 }
 
 function AudioPlay({ onAudioPlay }) {
   return (
-    <div className="audio">
+    <div className="audio border overflow-hidden  flex">
       <audio controls>
         <source src={onAudioPlay ? onAudioPlay : ""} type="audio/mp3" />
       </audio>
