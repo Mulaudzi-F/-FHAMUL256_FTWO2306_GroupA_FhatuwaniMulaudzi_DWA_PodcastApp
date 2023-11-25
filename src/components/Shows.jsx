@@ -59,7 +59,7 @@ export default function Shows({
                     <ShowSeason
                       updated={updated}
                       item={eachSeason}
-                      key={eachSeason.id}
+                      key={seasons.indexOf(eachSeason)}
                       onDateConversion={onDateConversion}
                       numbering={seasons.indexOf(eachSeason)}
                       handleSelectedSeason={handleSelectedSeason}

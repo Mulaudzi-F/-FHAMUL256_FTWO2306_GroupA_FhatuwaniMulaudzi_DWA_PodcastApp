@@ -15,3 +15,12 @@
   font-weight: 600;
   margin: 4.8rem;
 }
+
+audio {
+  width: 100%;
+  outline: none;
+  padding: 10px;
+  background-color: #adb5bd;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
