@@ -1,5 +1,6 @@
 import React from "react";
 import Loader from "./Loader";
+import Navbar from "./Navbar";
 export default function Shows({
   setIsLoading,
   selectedId,
@@ -38,6 +39,7 @@ export default function Shows({
 
   return (
     <>
+      <Navbar />
       {show ? (
         <section className="flex-col bg-slate-400">
           <div className="flex justify-between">

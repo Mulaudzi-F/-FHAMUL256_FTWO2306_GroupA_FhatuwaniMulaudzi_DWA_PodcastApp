@@ -1,4 +1,5 @@
 import React from "react";
+import Navbar from "./Navbar";
 
 export default function Episodes({
   selectedSeason,
@@ -27,6 +28,7 @@ export default function Episodes({
 
   return (
     <>
+      <Navbar />
       {selectedSeason ? (
         <section className="w-5/12 bg-stone-400 my-0 mx-auto text-left  justify-center items-center">
           <div className="flex justify-center items-center">

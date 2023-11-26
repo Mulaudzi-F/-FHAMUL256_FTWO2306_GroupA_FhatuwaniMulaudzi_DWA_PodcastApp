@@ -1,12 +1,13 @@
 import React from "react";
 import PreviewCard from "./previewCard";
 import Shows from "./Shows";
+import Navbar from "./Navbar";
 
 export default function Preview({
   onSetPreviewInfo,
   onPreviewInfo,
   onSelectedId,
-  onDateConversion
+  onDateConversion,
 }) {
   React.useEffect(() => {
     fetch("https://podcast-api.netlify.app/shows")
@@ -31,5 +32,10 @@ export default function Preview({
     );
   });
 
-  return <div className="grid grid-cols-3 gap-4 my-10">{Cards}</div>;
+  return (
+    <div className="grid grid-cols-3 gap-4 my-10">
+      <Navbar />
+      {Cards}
+    </div>
+  );
 }

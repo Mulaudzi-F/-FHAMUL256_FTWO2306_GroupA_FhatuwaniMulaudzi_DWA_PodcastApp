@@ -50,35 +50,58 @@ function App() {
       <Navbar>
         <Search query={query} setQuery={setQuery} />
       </Navbar>
-      <Preview
-        onSetPreviewInfo={setpreviewInfo}
-        onPreviewInfo={previewInfo}
-        onSelectedId={handleSelectedId}
-        onDateConversion={dateConversion}
-      />
-      <Shows
-        selectedId={selectedId}
-        isLoading={isLoading}
-        oncloseSelected={handleCloseSelected}
-        setIsLoading={setIsLoading}
-        onDateConversion={dateConversion}
-        handleSelectedSeason={getSeasonClicked}
-      />
-      <Episodes
-        selectedSeason={selectedSeason}
-        onSetFavourite={setFavourite}
-        favourite={favourite}
-        handleAudioPlay={handleAudioPlay}
-        audioPlay={audioPlay}
-        description={description}
-      />
-
-      <Favourite
-        favourite={favourite}
-        audioPlay={audioPlay}
-        description={description}
-        handleAudioPlay={handleAudioPlay}
-      />
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="/preview"
+            Component={
+              <Preview
+                onSetPreviewInfo={setpreviewInfo}
+                onPreviewInfo={previewInfo}
+                onSelectedId={handleSelectedId}
+                onDateConversion={dateConversion}
+              />
+            }
+          />
+          <Route
+            path="/show"
+            Component={
+              <Shows
+                selectedId={selectedId}
+                isLoading={isLoading}
+                oncloseSelected={handleCloseSelected}
+                setIsLoading={setIsLoading}
+                onDateConversion={dateConversion}
+                handleSelectedSeason={getSeasonClicked}
+              />
+            }
+          />
+          <Route
+            path="/episodes"
+            Component={
+              <Episodes
+                selectedSeason={selectedSeason}
+                onSetFavourite={setFavourite}
+                favourite={favourite}
+                handleAudioPlay={handleAudioPlay}
+                audioPlay={audioPlay}
+                description={description}
+              />
+            }
+          />
+          <Route
+            path="/favourite"
+            element={
+              <Favourite
+                favourite={favourite}
+                audioPlay={audioPlay}
+                description={description}
+                handleAudioPlay={handleAudioPlay}
+              />
+            }
+          />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
