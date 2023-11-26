@@ -1,15 +1,17 @@
 import React from "react";
 
-export default function Episodes({ selectedSeason }) {
-  const [audioPlay, setAudioPlay] = React.useState(null);
-  const [description, setDescription] = React.useState("");
-  selectedSeason ? console.log(selectedSeason) : "";
+export default function Episodes({
+  selectedSeason,
+  onSetFavourite,
+  favourite,
+  handleAudioPlay,
+  audioPlay,
+  description,
+}) {
+  function getFavourite(newFavourite) {
+    const targetFavourite = newFavourite;
 
-  audioPlay ? console.log(audioPlay) : "";
-
-  function handleAudioPlay(file, episodeDescription) {
-    setAudioPlay(file);
-    setDescription(episodeDescription);
+    onSetFavourite([...favourite, targetFavourite]);
   }
 
   const episode = selectedSeason
@@ -18,6 +20,7 @@ export default function Episodes({ selectedSeason }) {
           item={singleEpisode}
           key={selectedSeason.indexOf(singleEpisode)}
           onHandleAudioPlay={handleAudioPlay}
+          onGetFavourite={getFavourite}
         />
       ))
     : "";
@@ -46,7 +49,7 @@ export default function Episodes({ selectedSeason }) {
   );
 }
 
-function EpisodesCollection({ item, onHandleAudioPlay }) {
+function EpisodesCollection({ item, onHandleAudioPlay, onGetFavourite }) {
   return (
     <div
       className="audio my-1  bg-red-200 w-17"
@@ -57,6 +60,7 @@ function EpisodesCollection({ item, onHandleAudioPlay }) {
         <img
           src="./images/white love.png"
           className="w-6 h-6 p-1 h-auto block"
+          onClick={() => onGetFavourite(item)}
         />
       </span>
     </div>

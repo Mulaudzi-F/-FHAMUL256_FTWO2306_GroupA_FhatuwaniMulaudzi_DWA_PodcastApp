@@ -6,6 +6,7 @@ import Preview from "./components/preview";
 import Shows from "./components/Shows";
 import Episodes from "./components/Episodes";
 import Search from "./components/Search";
+import Favourite from "./components/Favourite";
 
 function App() {
   const [previewInfo, setpreviewInfo] = useState([]);
@@ -13,6 +14,14 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedSeason, setSelectedSeason] = useState(null);
   const [query, setQuery] = useState("");
+  const [favourite, setFavourite] = useState([]);
+  const [audioPlay, setAudioPlay] = useState(null);
+  const [description, setDescription] = useState("");
+
+  function handleAudioPlay(file, episodeDescription) {
+    setAudioPlay(file);
+    setDescription(episodeDescription);
+  }
 
   function getSeasonClicked(season) {
     setSelectedSeason(season);
@@ -55,7 +64,21 @@ function App() {
         onDateConversion={dateConversion}
         handleSelectedSeason={getSeasonClicked}
       />
-      <Episodes selectedSeason={selectedSeason} />
+      <Episodes
+        selectedSeason={selectedSeason}
+        onSetFavourite={setFavourite}
+        favourite={favourite}
+        handleAudioPlay={handleAudioPlay}
+        audioPlay={audioPlay}
+        description={description}
+      />
+
+      <Favourite
+        favourite={favourite}
+        audioPlay={audioPlay}
+        description={description}
+        handleAudioPlay={handleAudioPlay}
+      />
     </div>
   );
 }
