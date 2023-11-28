@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "./Navbar";
-
+import Search from "./Search";
 export default function Episodes({
   selectedSeason,
   onSetFavourite,
@@ -28,12 +28,9 @@ export default function Episodes({
 
   return (
     <>
-      <Navbar />
       {selectedSeason ? (
         <section className="w-5/12 bg-stone-400 my-0 mx-auto text-left  justify-center items-center">
           <div className="flex justify-center items-center">
-            <img src="./images/images.png" className="mix-blend-multiply" />
-
             <p>{description ? description : ""}</p>
           </div>
           {episode}

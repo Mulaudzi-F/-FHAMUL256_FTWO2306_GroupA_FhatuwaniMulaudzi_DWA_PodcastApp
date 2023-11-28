@@ -7,12 +7,14 @@ import Shows from "./components/Shows";
 import Episodes from "./components/Episodes";
 import Search from "./components/Search";
 import Favourite from "./components/Favourite";
+import Loader from "./components/Loader";
 
 function App() {
   const [previewInfo, setpreviewInfo] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedSeason, setSelectedSeason] = useState(null);
+  const [isFavourite, setIsFavourite] = useState(false);
+
   const [query, setQuery] = useState("");
   const [favourite, setFavourite] = useState([]);
   const [audioPlay, setAudioPlay] = useState(null);
@@ -22,9 +24,8 @@ function App() {
     setAudioPlay(file);
     setDescription(episodeDescription);
   }
-
-  function getSeasonClicked(season) {
-    setSelectedSeason(season);
+  function toggleIsFavourite() {
+    setIsFavourite((isFavourite) => !isFavourite);
   }
 
   function handleSelectedId(id) {
@@ -46,64 +47,32 @@ function App() {
   }
 
   return (
-    <div className="flex flex-col ">
+    <>
       <Navbar>
-        <Search query={query} setQuery={setQuery} />
+        <Search />
       </Navbar>
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path="/preview"
-            Component={
-              <Preview
-                onSetPreviewInfo={setpreviewInfo}
-                onPreviewInfo={previewInfo}
-                onSelectedId={handleSelectedId}
-                onDateConversion={dateConversion}
-              />
-            }
-          />
-          <Route
-            path="/show"
-            Component={
-              <Shows
-                selectedId={selectedId}
-                isLoading={isLoading}
-                oncloseSelected={handleCloseSelected}
-                setIsLoading={setIsLoading}
-                onDateConversion={dateConversion}
-                handleSelectedSeason={getSeasonClicked}
-              />
-            }
-          />
-          <Route
-            path="/episodes"
-            Component={
-              <Episodes
-                selectedSeason={selectedSeason}
-                onSetFavourite={setFavourite}
-                favourite={favourite}
-                handleAudioPlay={handleAudioPlay}
-                audioPlay={audioPlay}
-                description={description}
-              />
-            }
-          />
-          <Route
-            path="/favourite"
-            element={
-              <Favourite
-                favourite={favourite}
-                audioPlay={audioPlay}
-                description={description}
-                handleAudioPlay={handleAudioPlay}
-              />
-            }
-          />
-        </Routes>
-      </BrowserRouter>
-    </div>
+      <Preview
+        onSetPreviewInfo={setpreviewInfo}
+        onPreviewInfo={previewInfo}
+        onSelectedId={handleSelectedId}
+        onDateConversion={dateConversion}
+        setIsLoading={setIsLoading}
+      />
+      <Shows
+        selectedId={selectedId}
+        isLoading={isLoading}
+        oncloseSelected={handleCloseSelected}
+        setIsLoading={setIsLoading}
+        onDateConversion={dateConversion}
+      />
+
+      <Favourite
+        favourite={favourite}
+        audioPlay={audioPlay}
+        description={description}
+        handleAudioPlay={handleAudioPlay}
+      />
+    </>
   );
 }
-
 export default App;

@@ -1,6 +1,7 @@
 import React from "react";
 import Loader from "./Loader";
-import Navbar from "./Navbar";
+import Episodes from "./Episodes";
+
 export default function Shows({
   setIsLoading,
   selectedId,
@@ -9,13 +10,18 @@ export default function Shows({
   handleSelectedSeason,
 }) {
   const [show, setShow] = React.useState({});
+  const [openEpisodes, setOpenEpisodes] = React.useState(false);
+  const [selectedSeason, setSelectedSeason] = React.useState(null);
 
+  function getSeasonClicked(season) {
+    setSelectedSeason(season);
+    setOpenEpisodes((prevState) => !prevState);
+  }
   const { title, updated, seasons, id, description, image, genres } = show;
 
   React.useEffect(
     function () {
       async function fetchShow() {
-        setIsLoading(true);
         const res = await fetch(
           `https://podcast-api.netlify.app/id/${selectedId}`
         );
@@ -28,8 +34,6 @@ export default function Shows({
         console.log(data);
         setShow(data).catch((error) => {
           console.error("Error during fetch:", error);
-
-          setIsLoading(false);
         });
       }
       fetchShow();
@@ -39,7 +43,6 @@ export default function Shows({
 
   return (
     <>
-      <Navbar />
       {show ? (
         <section className="flex-col bg-slate-400">
           <div className="flex justify-between">
@@ -64,7 +67,7 @@ export default function Shows({
                       key={seasons.indexOf(eachSeason)}
                       onDateConversion={onDateConversion}
                       numbering={seasons.indexOf(eachSeason)}
-                      handleSelectedSeason={handleSelectedSeason}
+                      getSeasonClicked={getSeasonClicked}
                     />
                   );
                 })
@@ -83,12 +86,12 @@ function ShowSeason({
   updated,
   onDateConversion,
   numbering,
-  handleSelectedSeason,
+  getSeasonClicked,
 }) {
   return (
     <div
       className="m-1 flex bg-slate-100 rounded-b-lg"
-      onClick={() => handleSelectedSeason(item.episodes)}
+      onClick={() => getSeasonClicked(item.episodes)}
     >
       <div className="text-2xl pt-10 font-bold">{numbering + 1}</div>
       <div className=" h-40">

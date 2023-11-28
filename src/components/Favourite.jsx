@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "./Navbar";
+import Search from "./Search";
 
 export default function Favourite({
   favourite,
@@ -21,7 +22,6 @@ export default function Favourite({
 
   return (
     <div>
-      <Navbar />
       <>
         {favourite ? (
           <section className="w-5/12 bg-stone-400 my-0 mx-auto text-left  justify-center items-center">
