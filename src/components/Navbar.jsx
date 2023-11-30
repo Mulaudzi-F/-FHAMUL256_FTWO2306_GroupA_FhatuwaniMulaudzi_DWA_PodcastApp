@@ -16,6 +16,10 @@ export default function Navbar({ children }) {
         <li>
           <NavLink to="/favourite"> Favourite</NavLink>
         </li>
+
+        <li>
+          <NavLink to="/Recentlyplayed">Recentlyplayed</NavLink>
+        </li>
       </ul>
     </nav>
   );

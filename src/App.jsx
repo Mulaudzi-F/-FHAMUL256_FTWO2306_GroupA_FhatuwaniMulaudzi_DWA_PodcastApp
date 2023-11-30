@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/Navbar";
@@ -6,20 +6,22 @@ import Preview from "./components/preview";
 import Shows from "./components/Shows";
 import Favourite from "./components/Favourite";
 import Loader from "./components/Loader";
+import RecentlyPlay from "./components/RecentlyPlayed";
+import React from "react";
 
 function App() {
   const [previewInfo, setpreviewInfo] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [isFavourite, setIsFavourite] = useState(false);
-
   const [favourite, setFavourite] = useState([]);
-  const [audioPlay, setAudioPlay] = useState(null);
-  const [description, setDescription] = useState("");
-
-  function toggleIsFavourite() {
-    setIsFavourite((isFavourite) => !isFavourite);
-  }
+  const [listenHistory, setListenHistory] = useState([]);
+  const [lastListened, setLastListened] = useState(null);
+  const [selectedPodcast, setSelectedPodcast] = useState(
+    JSON.parse(localStorage.getItem("selectedPodcast")) || null
+  );
+  const [favorites, setFavorites] = useState(
+    JSON.parse(localStorage.getItem("favoriteEpisodes")) || []
+  );
 
   function handleSelectedId(id) {
     setSelectedId(id);
@@ -38,6 +40,68 @@ function App() {
 
     return formattedDate;
   }
+
+  const [currentPage, setCurrentPage] = useState(
+    localStorage.getItem("currentPage") || "home"
+  );
+  const [selectedShow, setSelectedPodShow] = useState(
+    JSON.parse(localStorage.getItem("selectedShow")) || []
+  );
+
+  function handleNavigation(page) {
+    setCurrentPage(page);
+  }
+
+  // Function to handle episode completion and update listening history
+  const handleEpisodeComplete = (episode) => {
+    if (!listenHistory.some((item) => item.id === episode.id)) {
+      setListenHistory((prevHistory) => [...prevHistory, episode]);
+    }
+  };
+
+  // Function to handle episode progress and set last listened episode
+  const handleEpisodeProgress = (episode, currentTime) => {
+    if (currentTime >= episode.duration - 10) {
+      setLastListened({
+        show: episode.show,
+        episode: episode.title,
+        progress: currentTime,
+      });
+    }
+  };
+
+  // Function to handle favorite button click and update favorites
+  const handleFavoriteClick = (episode) => {
+    if (!favorites.some((fav) => fav.id === episode.id)) {
+      setFavorites((prevFavorites) => [...prevFavorites, episode]);
+    }
+  };
+
+  // Save the current page and selected podcast in localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem("currentPage", currentPage);
+    localStorage.setItem("selectedPodcast", JSON.stringify(selectedPodcast));
+  }, [currentPage, selectedPodcast]);
+
+  // Save the favorite episodes in localStorage whenever the favorites change
+  useEffect(() => {
+    localStorage.setItem("favoriteEpisodes", JSON.stringify(favorites));
+  }, [favorites]);
+
+  // Add event listener for the beforeunload event to reset the current page when leaving the app
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (currentPage !== "home") {
+        setCurrentPage("home");
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [currentPage]);
 
   return (
     <>
@@ -73,6 +137,7 @@ function App() {
               />
             }
           />
+          <Route path="/Recentlyplayed" element={<RecentlyPlay />} />
 
           <Route path="/favourite" element={<Favourite item={favourite} />} />
         </Routes>

@@ -48,10 +48,10 @@ export default function RecentlyPlay() {
 
   return (
     <div>
-      <h1>Listening History </h1> 
-      {listeningHistory.length > 0 ? (
+      <h1>Listening History </h1>
+      {playHistory.length > 0 ? (
         <ul>
-          {listeningHistory.map((episode, index) => (
+          {playHistory.map((episode, index) => (
             <li key={index}>
               <p>Show: {episode.show}</p>
               <p>Episode: {episode.episode}</p>
@@ -66,6 +66,4 @@ export default function RecentlyPlay() {
       <button onClick={handleResetProgress}>Reset Listening Progress</button>
     </div>
   );
-} 
-
-export default History;
+}
