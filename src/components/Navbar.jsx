@@ -13,9 +13,8 @@ export default function Navbar({ children }) {
           <NavLink to="/"> Preview</NavLink>
         </li>
 
-        <li>{children}</li>
         <li>
-        <NavLink to="/favourite"> Favourite</NavLink>
+          <NavLink to="/favourite"> Favourite</NavLink>
         </li>
       </ul>
     </nav>

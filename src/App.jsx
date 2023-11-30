@@ -5,9 +5,6 @@ import Navbar from "./components/Navbar";
 import Preview from "./components/preview";
 import Shows from "./components/Shows";
 import Favourite from "./components/Favourite";
-
-import Search from "./components/Search";
-//import Favourite from "./components/Favourite";
 import Loader from "./components/Loader";
 
 function App() {
@@ -16,7 +13,6 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [isFavourite, setIsFavourite] = useState(false);
 
-  const [query, setQuery] = useState("");
   const [favourite, setFavourite] = useState([]);
   const [audioPlay, setAudioPlay] = useState(null);
   const [description, setDescription] = useState("");
@@ -46,9 +42,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Navbar>
-          <Search />
-        </Navbar>
+        <Navbar></Navbar>
 
         <Routes>
           <Route
