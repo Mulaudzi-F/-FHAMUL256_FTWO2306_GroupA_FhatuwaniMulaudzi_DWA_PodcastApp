@@ -1,77 +1,34 @@
 import React from "react";
-import Navbar from "./Navbar";
-import Search from "./Search";
+
 export default function Episodes({
+  episode,
+  getFavourite,
+  episodeIndex,
   selectedSeason,
-  onSetFavourite,
-  favourite,
-  handleAudioPlay,
-  audioPlay,
-  description,
 }) {
-  function getFavourite(newFavourite) {
-    const targetFavourite = newFavourite;
-
-    onSetFavourite([...favourite, targetFavourite]);
-  }
-
-  const episode = selectedSeason
-    ? selectedSeason.map((singleEpisode) => (
-        <EpisodesCollection
-          item={singleEpisode}
-          key={selectedSeason.indexOf(singleEpisode)}
-          onHandleAudioPlay={handleAudioPlay}
-          onGetFavourite={getFavourite}
-        />
-      ))
-    : "";
-
   return (
     <>
       {selectedSeason ? (
-        <section className="w-5/12 bg-stone-400 my-0 mx-auto text-left  justify-center items-center">
-          <div className="flex justify-center items-center">
-            <p>{description ? description : ""}</p>
+        <li className="p-6 my-1 rounded-lg bg-slate-300">
+          <div className="flex justify-between">
+            <h4 className="text-lg font-bold">{episode.title}</h4>
+            <img
+              src="./images/white love.png"
+              className="w-6 h-6 p-1 h-auto block"
+              onClick={(event) => getFavourite(event, episode)}
+            />
           </div>
-          {episode}
 
-          {audioPlay ? (
-            <AudioPlay onAudioPlay={audioPlay} onDescription={description} />
-          ) : (
-            ""
-          )}
-        </section>
+          <p>{episode.description}</p>
+          {/* Audio player for the episode */}
+          <audio controls>
+            <source src={episode.file} type="audio/mp3" />
+          </audio>
+          {/* Favorite button */}
+        </li>
       ) : (
         ""
       )}
     </>
-  );
-}
-
-function EpisodesCollection({ item, onHandleAudioPlay, onGetFavourite }) {
-  return (
-    <div
-      className="audio my-1  bg-red-200 w-17"
-      onClick={() => onHandleAudioPlay(item.file, item.description)}
-    >
-      <span className="flex justify-between">
-        <p className="p-2">{item.title} </p>{" "}
-        <img
-          src="./images/white love.png"
-          className="w-6 h-6 p-1 h-auto block"
-          onClick={() => onGetFavourite(item)}
-        />
-      </span>
-    </div>
-  );
-}
-
-function AudioPlay({ onAudioPlay }) {
-  return (
-    <div className="audio border overflow-hidden  flex">
-      <audio controls>
-        <source src={onAudioPlay ? onAudioPlay : ""} type="audio/mp3" />
-      </audio>
-    </div>
   );
 }

@@ -8,6 +8,8 @@ export default function Shows({
   isLoading,
   onDateConversion,
   handleSelectedSeason,
+  setFavourite,
+  favourite,
 }) {
   const [show, setShow] = React.useState({});
   const [openEpisodes, setOpenEpisodes] = React.useState(false);
@@ -16,11 +18,20 @@ export default function Shows({
   function getSeasonClicked(season) {
     setSelectedSeason((prevSeason) => (prevSeason === season ? null : season));
   }
+
+  function getFavourite(event, newFavourite) {
+    console.log(newFavourite);
+    const targetFavourite = newFavourite;
+    setFavourite([...favourite, targetFavourite]);
+    event.stopPropagation();
+  }
+
   const { title, updated, seasons, id, description, image, genres } = show;
 
   React.useEffect(
     function () {
       async function fetchShow() {
+        setIsLoading(true);
         const res = await fetch(
           `https://podcast-api.netlify.app/id/${selectedId}`
         );
@@ -31,9 +42,8 @@ export default function Shows({
 
         const data = await res.json();
 
-        setShow(data).catch((error) => {
-          console.error("Error during fetch:", error);
-        });
+        setShow(data);
+        setIsLoading(false);
       }
       fetchShow();
     },
@@ -43,39 +53,44 @@ export default function Shows({
   return (
     <>
       {show ? (
-        <section className="flex-col">
-          <div className="flex bg-slate-400 justify-between">
-            <div>
-              <img src={image} />
+        isLoading ? (
+          <Loader />
+        ) : (
+          <section className="flex-col">
+            <div className="flex bg-slate-400 justify-between">
+              <div>
+                <img src={image} />
+              </div>
+              <div className="grid justify-items-center ">
+                <h2 className="text-2xl font-bold pt-8">{title}</h2>
+                <span className="mx-10 ">
+                  <p className="tracking-wide leading-loose">{description}</p>
+                  <p>{genres ? `Genres :${genres}` : ""}</p>
+                </span>
+              </div>
             </div>
-            <div className="grid justify-items-center ">
-              <h2 className="text-2xl font-bold pt-8">{title}</h2>
-              <span className="mx-10 ">
-                <p className="tracking-wide leading-loose">{description}</p>
-                <p>{genres ? `Genres :${genres}` : ""}</p>
-              </span>
+            <div className="flex-col  pt-4">
+              {seasons
+                ? seasons.map((eachSeason) => {
+                    return (
+                      <>
+                        <ShowSeason
+                          updated={updated}
+                          item={eachSeason}
+                          key={seasons.indexOf(eachSeason)}
+                          onDateConversion={onDateConversion}
+                          numbering={seasons.indexOf(eachSeason)}
+                          getSeasonClicked={getSeasonClicked}
+                          selectedSeason={selectedSeason}
+                          getFavourite={getFavourite}
+                        />
+                      </>
+                    );
+                  })
+                : "No PlayList at the moment"}
             </div>
-          </div>
-          <div className="flex-col  pt-4">
-            {seasons
-              ? seasons.map((eachSeason) => {
-                  return (
-                    <>
-                      <ShowSeason
-                        updated={updated}
-                        item={eachSeason}
-                        key={seasons.indexOf(eachSeason)}
-                        onDateConversion={onDateConversion}
-                        numbering={seasons.indexOf(eachSeason)}
-                        getSeasonClicked={getSeasonClicked}
-                        selectedSeason={selectedSeason}
-                      />
-                    </>
-                  );
-                })
-              : ""}
-          </div>
-        </section>
+          </section>
+        )
       ) : (
         ""
       )}
@@ -90,11 +105,14 @@ function ShowSeason({
   numbering,
   getSeasonClicked,
   selectedSeason,
+  getFavourite,
 }) {
   return (
     <div
       className="m-1 flex-col  rounded-b-lg"
-      onClick={() => getSeasonClicked(item)}
+      onClick={() => {
+        getSeasonClicked(item);
+      }}
     >
       <div className="flex bg-red-100">
         <div className="flex">
@@ -119,21 +137,21 @@ function ShowSeason({
               🗓️ {onDateConversion(updated)}
             </p>
           </div>
+          <ul
+            className={`my-2 ${selectedSeason === item ? "block" : "hidden"}`}
+          >
+            {item.episodes.map((episode, episodeIndex) => (
+              <Episodes
+                key={episodeIndex}
+                episode={episode}
+                episodeIndex={episodeIndex}
+                selectedSeason={selectedSeason}
+                getFavourite={getFavourite}
+              />
+            ))}
+          </ul>
         </div>
       </div>
-      <ul className={`my-2 ${selectedSeason === item ? "block" : "hidden"}`}>
-        {item.episodes.map((episode, episodeIndex) => (
-          <li className="p-6 my-1 rounded-lg bg-slate-300" key={episodeIndex}>
-            <h4 className="text-lg font-bold">{episode.title}</h4>
-            <p>{episode.description}</p>
-            {/* Audio player for the episode */}
-            <audio controls>
-              <source src={episode.file} type="audio/mp3" />
-            </audio>
-            {/* Favorite button */}
-          </li>
-        ))}
-      </ul>
     </div>
   );
 }

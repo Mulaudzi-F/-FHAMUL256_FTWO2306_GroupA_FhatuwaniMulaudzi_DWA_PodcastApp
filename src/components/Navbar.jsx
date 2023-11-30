@@ -5,13 +5,17 @@ export default function Navbar({ children }) {
   return (
     <nav className="flex items-center justify-center py-8 bg-amber-500">
       <ul className="flex gap-9 justify-between ">
-        <li>PlayList</li>
+        <li>
+          <NavLink to="/show">PlayList</NavLink>
+        </li>
 
-        <li>Preview</li>
+        <li>
+          <NavLink to="/"> Preview</NavLink>
+        </li>
 
         <li>{children}</li>
         <li>
-          <button>Favourites</button>
+        <NavLink to="/favourite"> Favourite</NavLink>
         </li>
       </ul>
     </nav>

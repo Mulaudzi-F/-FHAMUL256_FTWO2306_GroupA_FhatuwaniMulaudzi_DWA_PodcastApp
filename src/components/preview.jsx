@@ -1,8 +1,7 @@
 import React from "react";
 import PreviewCard from "./previewCard";
 import Shows from "./Shows";
-import Navbar from "./Navbar";
-import Search from "./Search";
+import Loader from "./Loader";
 
 export default function Preview({
   onSetPreviewInfo,
@@ -10,15 +9,16 @@ export default function Preview({
   onSelectedId,
   onDateConversion,
   setIsLoading,
+  isLoading,
 }) {
   React.useEffect(function () {
     async function getPreview() {
-    
+      setIsLoading(true);
       const res = await fetch("https://podcast-api.netlify.app/shows");
       const data = await res.json();
 
       onSetPreviewInfo(data);
-      
+      setIsLoading(false);
     }
 
     getPreview();
@@ -39,5 +39,9 @@ export default function Preview({
     );
   });
 
-  return <div className="grid grid-cols-3 gap-4 my-10"> {Cards}</div>;
+  return (
+    <div className="grid grid-cols-3 gap-4 my-10">
+      {isLoading ? <Loader /> : Cards}
+    </div>
+  );
 }
