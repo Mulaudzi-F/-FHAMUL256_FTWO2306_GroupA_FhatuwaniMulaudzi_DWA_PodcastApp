@@ -107,66 +107,72 @@ function App() {
     };
   }, [currentPage]);
 
-  return (
-    <>
-      {" "}
-      {isAuthenticated === false ? (
-        <Authentication
-          email={email}
-          setEmail={setEmail}
-          password={password}
-          setPassword={setPassword}
-          isAuthenticated={isAuthenticated}
-          setIsAuthenticated={setIsAuthenticated}
-        />
-      ) : (
-        <BrowserRouter>
-          <Navbar></Navbar>
-
-          <Routes>
-            <Route
-              path="/"
-              element={
-                currentPage === "home" && (
-                  <Preview
-                    onSetPreviewInfo={setpreviewInfo}
-                    onPreviewInfo={previewInfo}
-                    onSelectedId={handleSelectedId}
-                    onDateConversion={dateConversion}
-                    setIsLoading={setIsLoading}
-                    isLoading={isLoading}
-                  />
-                )
-              }
-            />
-
-            <Route
-              path="/show"
-              element={
-                <Shows
-                  selectedId={selectedId}
-                  isLoading={isLoading}
-                  oncloseSelected={handleCloseSelected}
-                  setIsLoading={setIsLoading}
-                  onDateConversion={dateConversion}
-                  setFavourite={setFavourite}
-                  favourite={favourite}
-                  onFavouriteClick={handleFavoriteClick}
+  
+    return (
+      <>
+        {isAuthenticated === false ? (
+          <Authentication
+            email={email}
+            setEmail={setEmail}
+            password={password}
+            setPassword={setPassword}
+            isAuthenticated={isAuthenticated}
+            setIsAuthenticated={setIsAuthenticated}
+          />
+        ) : (
+          <BrowserRouter>
+            <Navbar />
+  
+            <div className="container mx-auto">
+              <Routes>
+                <Route
+                  path="/"
+                  element={
+                    currentPage === "home" && (
+                      <Preview
+                        onSetPreviewInfo={setpreviewInfo}
+                        onPreviewInfo={previewInfo}
+                        onSelectedId={handleSelectedId}
+                        onDateConversion={dateConversion}
+                        setIsLoading={setIsLoading}
+                        isLoading={isLoading}
+                      />
+                    )
+                  }
                 />
-              }
-            />
-            <Route path="/Recentlyplayed" element={<RecentlyPlay />} />
-
-            <Route
-              path="/favourite"
-              element={
-                <Favourite favorites={favorites} setFavorites={setFavorites} />
-              }
-            />
-          </Routes>
-        </BrowserRouter>
-      )}
-    </>
-  );
-}
+  
+                <Route
+                  path="/show"
+                  element={
+                    <Shows
+                      selectedId={selectedId}
+                      isLoading={isLoading}
+                      oncloseSelected={handleCloseSelected}
+                      setIsLoading={setIsLoading}
+                      onDateConversion={dateConversion}
+                      setFavourite={setFavourite}
+                      favourite={favourite}
+                      onFavouriteClick={handleFavoriteClick}
+                    />
+                  }
+                />
+                <Route path="/Recentlyplayed" element={<RecentlyPlay />} />
+  
+                <Route
+                  path="/favourite"
+                  element={
+                    <Favourite
+                      favorites={favorites}
+                      setFavorites={setFavorites}
+                    />
+                  }
+                />
+              </Routes>
+            </div>
+          </BrowserRouter>
+        )}
+      </>
+    );
+  }
+  
 export default App;

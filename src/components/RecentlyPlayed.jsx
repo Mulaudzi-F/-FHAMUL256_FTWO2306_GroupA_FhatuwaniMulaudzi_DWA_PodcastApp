@@ -47,12 +47,17 @@ export default function RecentlyPlay() {
   }
 
   return (
-    <div>
-      <h1>Listening History </h1>
+    <div className="md:mx-auto md:w-3/4 lg:w-1/2 xl:w-1/3">
+      <h1 className="text-center mt-7 text-2xl md:text-3xl lg:text-4xl">
+        Listening History
+      </h1>
       {playHistory.length > 0 ? (
-        <ul>
+        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-center justify-center">
           {playHistory.map((episode, index) => (
-            <li key={index}>
+            <li
+              className="w-full h-3/4 bg-gray-300 flex flex-col text-center justify-center leading-48 p-4"
+              key={index}
+            >
               <p>Show: {episode.show}</p>
               <p>Episode: {episode.episode}</p>
               <p>Progress: {episode.progress} seconds</p>
@@ -61,9 +66,14 @@ export default function RecentlyPlay() {
           ))}
         </ul>
       ) : (
-        <p>No listening history found.</p>
+        <p className="text-center mt-4">No listening history found.</p>
       )}
-      <button onClick={handleResetProgress}>Reset Listening Progress</button>
+      <button
+        className="bg-stone-400 rounded-sm p-2 md:p-4 px-4 md:px-9 mt-4 bg-amber-200 w-full"
+        onClick={handleResetProgress}
+      >
+        Reset Listening Progress
+      </button>
     </div>
   );
 }

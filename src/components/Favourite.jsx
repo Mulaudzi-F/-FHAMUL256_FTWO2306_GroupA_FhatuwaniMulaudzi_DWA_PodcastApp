@@ -45,17 +45,22 @@ export default function Favourite({ favorites, setFavorites }) {
     });
   return (
     <div className="favorite-container">
-      <h1>Your Favorites</h1>
-      <div className="favorite-controls">
+      <h1 className="text-xl text-center pt-4">Your Favorites</h1>
+      <div className="favorite-controls flex flex-col md:flex-row items-center justify-center md:justify-between mt-4">
         {/* Search input */}
         <input
           type="text"
           placeholder="Search by title"
           value={searchTerm}
           onChange={handleSearchChange}
+          className="relative rounded-md bg-slate-200 h-10 mx-0 md:mx-2 mb-2 md:mb-0 w-full md:w-auto"
         />
         {/* Dropdown for sorting */}
-        <select value={sortOrder} onChange={handleSortChange}>
+        <select
+          className="bg-slate-400 p-2 rounded-lg w-full md:w-auto"
+          value={sortOrder}
+          onChange={handleSortChange}
+        >
           <option value="asc">Sort A-Z</option>
           <option value="desc">Sort Z-A</option>
           <option value="asc-date">Sort Ascending Date</option>
@@ -65,17 +70,19 @@ export default function Favourite({ favorites, setFavorites }) {
       {/* Render favorite episodes */}
       {filteredAndSortedFavorites.length > 0 ? (
         filteredAndSortedFavorites.map((episode, index) => (
-          <div key={index} className="favorite-item">
-            <h3>{episode.title}</h3>
-            <h4>{episode.season}</h4>
+          <div key={index} className="p-2 m-6 bg-gray-300 rounded-2xl">
+            <h3 className="text-lg text-center font-bold">{episode.title}</h3>
+            <h4 className="font-bold">{episode.season}</h4>
             <p>{episode.description}</p>
-            <button onClick={() => removeFromFavorites(episode)}>
-              Remove from Favorites
-            </button>
+            <img
+              src="./images/black love.png"
+              className="w-6 h-6 p-1 h-auto block"
+              onClick={() => removeFromFavorites(episode)}
+            />
           </div>
         ))
       ) : (
-        <p>No favorite episodes found.</p>
+        <p className="text-center mt-4">No favorite episodes found.</p>
       )}
     </div>
   );

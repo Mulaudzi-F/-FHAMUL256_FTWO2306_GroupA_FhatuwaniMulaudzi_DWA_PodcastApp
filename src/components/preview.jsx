@@ -3,6 +3,9 @@ import PreviewCard from "./previewCard";
 import Shows from "./Shows";
 import Loader from "./Loader";
 import Search from "./Search";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 export default function Preview({
   onSetPreviewInfo,
@@ -72,7 +75,7 @@ export default function Preview({
 
   return (
     <>
-      <div>
+      <div className="md:flex md:items-center md:justify-between">
         <select
           className="block px-4 py-2 m-3 bg-slate-300 text-gray-800 hover:bg-gray-200"
           value={sortOption}
@@ -86,7 +89,7 @@ export default function Preview({
         <Search searchTerm={searchTerm} handleSearch={handleSearch} />
       </div>
 
-      <div className="grid grid-cols-3 gap-4 my-10">
+      <div className="grid grid-cols-1 outline-none  md:grid-cols-2 lg:grid-cols-3 gap-4 my-10">
         {isLoading ? <Loader /> : Cards}
       </div>
     </>
