@@ -7,6 +7,7 @@ import Shows from "./components/Shows";
 import Favourite from "./components/Favourite";
 import Loader from "./components/Loader";
 import RecentlyPlay from "./components/RecentlyPlayed";
+import Authentication from "./components/Authotications";
 import React from "react";
 
 function App() {
@@ -15,7 +16,10 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [favourite, setFavourite] = useState([]);
   const [listenHistory, setListenHistory] = useState([]);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [lastListened, setLastListened] = useState(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [selectedPodcast, setSelectedPodcast] = useState(
     JSON.parse(localStorage.getItem("selectedPodcast")) || null
   );
@@ -105,43 +109,65 @@ function App() {
 
   return (
     <>
-      <BrowserRouter>
-        <Navbar></Navbar>
+      {" "}
+      {isAuthenticated === false ? (
+        <Authentication
+          email={email}
+          setEmail={setEmail}
+          password={password}
+          setPassword={setPassword}
+          isAuthenticated={isAuthenticated}
+          setIsAuthenticated={setIsAuthenticated}
+        />
+      ) : (
+        <BrowserRouter>
+          <Navbar></Navbar>
 
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Preview
-                onSetPreviewInfo={setpreviewInfo}
-                onPreviewInfo={previewInfo}
-                onSelectedId={handleSelectedId}
-                onDateConversion={dateConversion}
-                setIsLoading={setIsLoading}
-                isLoading={isLoading}
-              />
-            }
-          />
+          <Routes>
+            <Route
+              path="/"
+              element={
+                currentPage === "home" && (
+                  <Preview
+                    onSetPreviewInfo={setpreviewInfo}
+                    onPreviewInfo={previewInfo}
+                    onSelectedId={handleSelectedId}
+                    onDateConversion={dateConversion}
+                    setIsLoading={setIsLoading}
+                    isLoading={isLoading}
+                  />
+                )
+              }
+            />
 
-          <Route
-            path="/show"
-            element={
-              <Shows
-                selectedId={selectedId}
-                isLoading={isLoading}
-                oncloseSelected={handleCloseSelected}
-                setIsLoading={setIsLoading}
-                onDateConversion={dateConversion}
-                setFavourite={setFavourite}
-                favourite={favourite}
-              />
-            }
-          />
-          <Route path="/Recentlyplayed" element={<RecentlyPlay />} />
+            <Route
+              path="/show"
+              element={
+                <Shows
+                  selectedId={selectedId}
+                  isLoading={isLoading}
+                  oncloseSelected={handleCloseSelected}
+                  setIsLoading={setIsLoading}
+                  onDateConversion={dateConversion}
+                  setFavourite={setFavourite}
+                  favourite={favourite}
+                />
+              }
+            />
+            <Route
+              path="/Recentlyplayed"
+              element={currentPage === "history" && <RecentlyPlay />}
+            />
 
-          <Route path="/favourite" element={<Favourite item={favourite} />} />
-        </Routes>
-      </BrowserRouter>
+            <Route
+              path="/favourite"
+              element={
+                currentPage === "favorite" && <Favourite item={favourite} />
+              }
+            />
+          </Routes>
+        </BrowserRouter>
+      )}
     </>
   );
 }
