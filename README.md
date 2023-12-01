@@ -148,7 +148,7 @@ To run the project locally, follow these steps:
 
 ## Deployment
 
-The project is deployed to a custom Netlify URL: [https://your-netlify-url.netlify.app](https://your-netlify-url.netlify.app)
+The project is deployed to a custom Netlify URL: [https://soft-cactus-1173d6.netlify.app/](https://soft-cactus-1173d6.netlify.app/)
 
 ## Usage
 
@@ -161,7 +161,7 @@ The project is deployed to a custom Netlify URL: [https://your-netlify-url.netli
 ## Technologies Used
 
 - [React](https://reactjs.org/)
-- [TypeScript](https://www.typescriptlang.org/)
+- [JavaScript](https://www.Javascriptlang.org/)
 - [Netlify](https://www.netlify.com/)
 - [Supabase](https://supabase.io/)
 
