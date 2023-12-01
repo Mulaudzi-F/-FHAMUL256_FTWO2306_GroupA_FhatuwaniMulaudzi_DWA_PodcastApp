@@ -151,18 +151,16 @@ function App() {
                   onDateConversion={dateConversion}
                   setFavourite={setFavourite}
                   favourite={favourite}
+                  onFavouriteClick={handleFavoriteClick}
                 />
               }
             />
-            <Route
-              path="/Recentlyplayed"
-              element={currentPage === "history" && <RecentlyPlay />}
-            />
+            <Route path="/Recentlyplayed" element={<RecentlyPlay />} />
 
             <Route
               path="/favourite"
               element={
-                currentPage === "favorite" && <Favourite item={favourite} />
+                <Favourite favorites={favorites} setFavorites={setFavorites} />
               }
             />
           </Routes>

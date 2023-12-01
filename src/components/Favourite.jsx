@@ -1,8 +1,10 @@
 import React from "react";
+import { useEffect } from "react";
 
-export default function Favourite({ item }) {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [sortOrder, setSortOrder] = useState("asc"); // Default sorting order is ascending
+export default function Favourite({ favorites, setFavorites }) {
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const [sortOrder, setSortOrder] = React.useState("asc"); // Default sorting order is ascending
+  const [localFavorites, setLocalFavorites] = React.useState(favorites);
 
   // Function to remove an episode from favorites
   const removeFromFavorites = (episode) => {
@@ -42,27 +44,39 @@ export default function Favourite({ item }) {
       }
     });
   return (
-    <ul className="block">
-      {item.map((episode, episodeIndex) => {
-        return (
-          <li className="p-6 my-1 rounded-lg bg-slate-300" key={episodeIndex}>
-            <div className="flex justify-between">
-              <h4 className="text-lg font-bold">{episode.title}</h4>
-              <img
-                src="./images/black love.png"
-                className="w-6 h-6 p-1 h-auto block"
-              />
-            </div>
-
+    <div className="favorite-container">
+      <h1>Your Favorites</h1>
+      <div className="favorite-controls">
+        {/* Search input */}
+        <input
+          type="text"
+          placeholder="Search by title"
+          value={searchTerm}
+          onChange={handleSearchChange}
+        />
+        {/* Dropdown for sorting */}
+        <select value={sortOrder} onChange={handleSortChange}>
+          <option value="asc">Sort A-Z</option>
+          <option value="desc">Sort Z-A</option>
+          <option value="asc-date">Sort Ascending Date</option>
+          <option value="desc-date">Sort Descending Date</option>
+        </select>
+      </div>
+      {/* Render favorite episodes */}
+      {filteredAndSortedFavorites.length > 0 ? (
+        filteredAndSortedFavorites.map((episode, index) => (
+          <div key={index} className="favorite-item">
+            <h3>{episode.title}</h3>
+            <h4>{episode.season}</h4>
             <p>{episode.description}</p>
-            {/* Audio player for the episode */}
-            <audio controls>
-              <source src={episode.file} type="audio/mp3" />
-            </audio>
-            {/* Favorite button */}
-          </li>
-        );
-      })}
-    </ul>
+            <button onClick={() => removeFromFavorites(episode)}>
+              Remove from Favorites
+            </button>
+          </div>
+        ))
+      ) : (
+        <p>No favorite episodes found.</p>
+      )}
+    </div>
   );
 }

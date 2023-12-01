@@ -10,21 +10,23 @@ export default function Shows({
   handleSelectedSeason,
   setFavourite,
   favourite,
+  onFavouriteClick,
 }) {
   const [show, setShow] = React.useState({});
   const [openEpisodes, setOpenEpisodes] = React.useState(false);
   const [selectedSeason, setSelectedSeason] = React.useState(null);
+  const [localFavorites, setLocalFavorites] = React.useState(favourite);
 
   function getSeasonClicked(season) {
     setSelectedSeason((prevSeason) => (prevSeason === season ? null : season));
   }
 
-  function getFavourite(event, newFavourite) {
-    console.log(newFavourite);
-    const targetFavourite = newFavourite;
-    setFavourite([...favourite, targetFavourite]);
-    event.stopPropagation();
-  }
+  // Handle favorite button click
+  const handleFavoriteClick = () => {
+    if (show) {
+      onFavouriteClick(show);
+    }
+  };
 
   const { title, updated, seasons, id, description, image, genres } = show;
 
@@ -82,7 +84,7 @@ export default function Shows({
                           numbering={seasons.indexOf(eachSeason)}
                           getSeasonClicked={getSeasonClicked}
                           selectedSeason={selectedSeason}
-                          getFavourite={getFavourite}
+                          getFavourite={handleFavoriteClick}
                         />
                       </>
                     );
