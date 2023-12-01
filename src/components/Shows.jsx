@@ -16,6 +16,7 @@ export default function Shows({
   const [openEpisodes, setOpenEpisodes] = React.useState(false);
   const [selectedSeason, setSelectedSeason] = React.useState(null);
   const [localFavorites, setLocalFavorites] = React.useState(favourite);
+  const [isFavourite, setIsFavourite] = React.useState(false);
 
   function getSeasonClicked(season) {
     setSelectedSeason((prevSeason) => (prevSeason === season ? null : season));
@@ -25,6 +26,7 @@ export default function Shows({
   const handleFavoriteClick = (event) => {
     if (show) {
       onFavouriteClick(show);
+
       event.stopPropagation();
     }
   };
@@ -62,7 +64,11 @@ export default function Shows({
           <section className="flex-col">
             <div className="flex flex-col lg:flex-row bg-slate-400 justify-between">
               <div className="w-full lg:w-1/3">
-                <img src={image} className="w-full h-auto" alt="Show Poster" />
+                <img
+                  src={image}
+                  className="w-full cover h-auto"
+                  alt="Show Poster"
+                />
               </div>
               <div className="flex flex-col justify-center mx-4 lg:mx-0 lg:w-2/3">
                 <h2 className="text-2xl font-bold pt-4 lg:pt-8">{title}</h2>
@@ -84,6 +90,7 @@ export default function Shows({
                       getSeasonClicked={getSeasonClicked}
                       selectedSeason={selectedSeason}
                       getFavourite={handleFavoriteClick}
+                      isFavourite={isFavourite}
                     />
                   ))
                 : "No PlayList at the moment"}
@@ -104,6 +111,7 @@ export default function Shows({
     getSeasonClicked,
     selectedSeason,
     getFavourite,
+    isFavourite,
   }) {
     return (
       <div
@@ -148,6 +156,7 @@ export default function Shows({
                   episodeIndex={episodeIndex}
                   selectedSeason={selectedSeason}
                   getFavourite={getFavourite}
+                  isFavourite={isFavourite}
                 />
               ))}
             </ul>

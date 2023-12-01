@@ -5,6 +5,7 @@ export default function Episodes({
   getFavourite,
   episodeIndex,
   selectedSeason,
+  isFavourite,
 }) {
   return (
     <>

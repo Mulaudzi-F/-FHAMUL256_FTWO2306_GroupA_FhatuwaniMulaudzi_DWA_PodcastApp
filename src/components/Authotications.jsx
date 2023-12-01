@@ -19,7 +19,7 @@ export default function Authentication(props) {
     <>
       <div className="flex items-center justify-center min-h-screen">
         <form
-          className="w-full md:w-1/2 h-3/4 bg-gray-300 flex flex-col text-center justify-center leading-48 p-4"
+          className="w-full md:w-1/2 h-3/4 bg-slate-400 flex flex-col text-center justify-center leading-48 p-4"
           onSubmit={(e) => e.preventDefault()}
         >
           <div className="mt-8 md:mt-12">
