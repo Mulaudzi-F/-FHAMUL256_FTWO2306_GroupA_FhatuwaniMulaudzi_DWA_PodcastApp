@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { json } from "react-router-dom";
 
 export default function RecentlyPlay() {
+  // State to store listening history and the last listened episode
   const [playHistory, setPlayHistory] = React.useState(
     JSON.parse(localStorage.getItem("listenHistory")) || []
   );
@@ -10,13 +11,16 @@ export default function RecentlyPlay() {
     JSON.parse(localStorage.getItem("lastListened")) || {}
   );
 
+  // Effect to update 'listeningHistory' in local storage when it changes
   useEffect(() => {
     localStorage.setItem("listeningHistory", JSON.stringify(playHistory));
   }, [playHistory]);
 
+  // Effect to update 'lastListened' in local storage and add to history
   useEffect(() => {
     localStorage.setItem("lastListened", JSON.stringify(lastListened));
 
+    // Create a timer to add to history after 10 minutes of no activity
     const timer = setTimeout(
       () => {
         if (
@@ -37,15 +41,17 @@ export default function RecentlyPlay() {
       },
       10 * 60 * 1000
     );
-
+    // Clean up the timer if component unmounts or 'lastListened' changes
     return () => clearTimeout(timer);
   }, [lastListened]);
 
+  // Function to reset listening history and last listened episode
   function handleResetProgress() {
     setPlayHistory([]);
     setLastListened({});
   }
 
+  // Render the History component
   return (
     <div className="md:mx-auto md:w-3/4 lg:w-1/2 xl:w-1/3">
       <h1 className="text-center mt-7 text-2xl md:text-3xl lg:text-4xl">

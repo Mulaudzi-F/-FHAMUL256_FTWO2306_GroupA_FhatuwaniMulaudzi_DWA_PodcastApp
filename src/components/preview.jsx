@@ -41,6 +41,7 @@ export default function Preview({
     return;
   });
 
+  // Reads the current input value when user is entering text
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };

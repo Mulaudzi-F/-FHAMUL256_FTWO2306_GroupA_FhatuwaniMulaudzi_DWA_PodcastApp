@@ -20,7 +20,7 @@ Welcome to the Podcast App Capstone Project for the CodeSpace Software Developme
 
 ## Technology
 
-The project is built using [React](https://reactjs.org/) and [TypeScript](https://www.typescriptlang.org/). It leverages the [Netlify](https://www.netlify.com/) platform for deployment and [Supabase](https://supabase.io/) for user authentication and database storage.
+The project is built using [React](https://reactjs.org/) and [javaScript](https://www.javaScriptlang.org/). It leverages the [Netlify](https://www.netlify.com/) platform for deployment and [Supabase](https://supabase.io/) for user authentication and database storage.
 
 ## Data
 
